@@ -4,12 +4,12 @@ const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 const Data = require('../models/data');
 
 // Welcome Page
-router.get('/', forwardAuthenticated, (req, res) => res.render('welcome'));
+router.get('/', forwardAuthenticated, (req, res) => res.render('welcome', { title: 'Welcome' }));
 
 // Dashboard
 router.get('/dashboard', ensureAuthenticated, (req, res) => {
   Data.find().then((result) => {
-    res.render('dashboard', { 'title': 'All Tasks', 'tasks': result, 'user': req.user })
+    res.render('dashboard', { title: 'All Tasks', tasks: result, user: req.user })
   }).catch((err) => {
     console.log(err);
   });
@@ -27,7 +27,7 @@ router.post('/dashboard', (req, res) => {
 router.delete('/dashboard/:id', (req, res) => {
   const id = req.params.id;
   Data.findByIdAndRemove(id)
-    .then(() => res.json({redirect : '/dashboard'}))
+    .then(() => res.json({ redirect: '/dashboard' }))
     .catch(err => console.log(err));
 });
 
