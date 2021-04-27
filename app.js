@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const flash = require('connect-flash');
 const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
 
 const app = express();
 
@@ -22,6 +23,12 @@ mongoose
     process.exit(1)
   });
 
+// set session store
+const store = new MongoDBStore({
+  uri: db,
+  collection: 'sessions'
+});
+
 // EJS
 app.use(expressLayouts);
 
@@ -36,7 +43,8 @@ app.use(
   session({
     secret: 'secret',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    store: store
   })
 );
 
