@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
-const Data = require('../models/data');
+const Data = require('../models/Data');
 
 // Welcome Page
 router.get('/', forwardAuthenticated, (req, res) => res.render('welcome', { title: 'Welcome' }));
