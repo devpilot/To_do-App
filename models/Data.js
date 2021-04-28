@@ -10,6 +10,10 @@ const dataSchema = new Schema({
     type: Boolean,
     required: true,
     default: false
+  },
+  userId: {
+    type: String,
+    require: true
   }
 }, { timestamps: true });
 

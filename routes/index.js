@@ -8,7 +8,7 @@ router.get('/', forwardAuthenticated, (req, res) => res.render('welcome', { titl
 
 // Dashboard
 router.get('/dashboard', ensureAuthenticated, (req, res) => {
-  Data.find().then((result) => {
+  Data.find({ userId: req.user._id }).sort({createdAt: -1}).then((result) => {
     res.render('dashboard', { title: 'All Tasks', tasks: result, user: req.user })
   }).catch((err) => {
     console.log(err);
@@ -20,12 +20,12 @@ router.post('/dashboard', (req, res) => {
   // update task status
   const {_id, isDone } = req.body
   if (_id && isDone) {
-    Data.updateOne({ _id: _id }, { isDone: isDone })
+    Data.updateOne({ _id: _id, userId: req.user._id }, { isDone: isDone })
     .then(() => res.sendStatus(200))
     .catch((err) => console.log(err));
   } else {
   // insert task
-  const task = new Data(req.body);
+  const task = new Data({ ...req.body, userId: req.user._id });
   task.save()
     .then(() => res.redirect('/dashboard'))
     .catch((err) => console.log(err));
@@ -35,7 +35,7 @@ router.post('/dashboard', (req, res) => {
 // delete tasks
 router.delete('/dashboard/:id', (req, res) => {
   const id = req.params.id;
-  Data.findByIdAndRemove(id)
+  Data.deleteOne({ _id: id, userId: req.user._id})
     .then(() => res.json({ redirect: '/dashboard' }))
     .catch(err => console.log(err));
 });
