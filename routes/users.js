@@ -32,6 +32,7 @@ router.post('/register', (req, res) => {
 
   if (errors.length > 0) {
     res.render('register', {
+      title: 'Register',
       errors,
       name,
       email,
@@ -43,6 +44,7 @@ router.post('/register', (req, res) => {
       if (user) {
         errors.push({ msg: 'Email already exists' });
         res.render('register', {
+          title: 'Register',
           errors,
           name,
           email,
