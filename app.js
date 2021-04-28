@@ -26,7 +26,8 @@ mongoose
 // set session store
 const store = new MongoDBStore({
   uri: db,
-  collection: 'sessions'
+  collection: 'sessions',
+  clear_interval: 3600
 });
 
 // EJS
@@ -44,6 +45,7 @@ app.use(
     secret: 'secret',
     resave: true,
     saveUninitialized: true,
+    cookie: { maxAge: 24 * 60 * 60 * 1000 },
     store: store
   })
 );
