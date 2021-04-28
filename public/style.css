@@ -1,28 +1,19 @@
-#info{
-    border: 1px solid black;
+.box {
+  padding: 2%;
 }
-.to_do{
-    margin-top: 25px;
+#text {
+  width: 80%;
 }
-.list-styling{
-    margin: 10px;
-    cursor: pointer;
-    padding: auto;
+.todo-item {
+  background: #eeeeee;
+  margin: 1% 0;
+  padding: 1%
 }
-.box{
-    border: 2px solid greenyellow;
-    height: fit-content;
-    width: fit-content;
-    margin: auto;
-    box-shadow: 2px greenyellow;
-    padding: 15px;
+.todo-item-done .col {
+  text-decoration: line-through;
+  color: #6a6a6a;
 }
-.delete{
-    padding-right: 0%;
-    top: 0;
-    right: 0;
-    padding: 8px;
-}
-.delete:hover{
-    cursor: pointer;
+.todo-item .delete {
+  color: #eb6864;
+  cursor: pointer;
 }

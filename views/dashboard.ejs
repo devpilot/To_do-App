@@ -1,133 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome <%= title %> </title>
-    <link rel="stylesheet" href="/style.css">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<nav class="navbar navbar-light" style="background-color: #e3f2fd">
+  <a class="navbar-brand"><p class="lead mb-3">Welcome <%= user.name %></p></a>
+  <a href="/users/logout" class="btn btn-secondary">Logout</a>
+</nav>
 
-</head>
-<body>
-    <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
-        <div class="container">
-          <a class="navbar-brand"><p class="lead mb-3">Welcome <%= user.name %></p>
-          </a>
+<div class="box border border-success">
+  <form class="form-group" action="/dashboard" method="POST">
+    Enter activity :
+    <input required type="text" name="text" placeholder="Meeting at 5:30" id="text" >
+    <input class="btn btn-success" type="submit" value="Add" id="add" >
+  </form>
+</div>
 
-          <a href="/users/logout" class="btn btn-secondary">Logout</a>
+<hr />
 
-        </div>
-      </nav>
-
-
-        <div class="box">
-
-        <form action="/dashboard" method="POST">
-            <input type="hidden" id="isDone" name="isDone" value="0">
-            <p>Enter activity : <input type="text" name="text" placeholder="Meeting at 5:30" id="text" > <input class="btn-success" type="submit" value="Add" id="add"></p>
-            
-        </form>
+<h3>Tasks</h3>
+<hr />
+<%# filter tasks by isDone %>
+<% const tUndone = tasks.filter((task) => task.isDone === false) %>
+<% if (tUndone.length > 0) { %>
+  <% tUndone.forEach(task => { %>
+    <div class="row todo-item">
+      <div class="col-1">
+        <input type="checkbox" onchange="changeStatus(`<%= task._id %>`, this.checked)" <%= task.isDone ? 'checked' : '' %> >
+      </div>
+      <div class="col">
+        <%= task.text %>
+      </div>
+      <div class="col-1">
+        <span class="fas fa-trash delete" data-doc="<%= task._id %>" title="Delete Task"></span>
+      </div>
     </div>
-    <br>
-    <hr>
-    <br>
-    
-    <div class="card-columns">
-        <div class="card">
-            <img class="card-img-top" src="holder.js/100x180/" alt="">
-            <div class="card-body">
-                <h4 class="card-title" style="background-color: #f54251;" >Pending Tasks</h4>
-                <p class="card-text1">
-                    <% var filtered_tasks = tasks.filter(function (el) { %>
-                        <% return el != null; %>
-                       <% }) %> 
-                     <% if(filtered_tasks.length>0) { %>
-                         <% tasks.forEach(task =>{ %>
-                             <% if(task.isDone=="0"){ %> 
-                                <p class="list-styling" id="list-styling"><div class="p-3 mb-2 bg-danger text-white"><%= task.text %>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-warning btn-sm" type="button" data-toggle="tooltip" data-placement="bottom" title="Delete Task"><a class="delete" data-doc="<%= task._id %> ">Done</a></button></div></p> 
-                             <% } %>
-                         <% }) %>
-                         <% }else{ %>
-                             <p>No Tasks Yet!!!</p>
-                         <% } %> 
-     
-                </p>
-            </div>
-        </div>
-        <div class="card">
-            <img class="card-img-top" src="holder.js/100x180/" alt="">
-            <div class="card-body">
-                <h4 class="card-title" style="background-color: #42f55a;">Completed Tasks</h4>
-                <p class="card-text2">
-                    <% var filtered_tasks = tasks.filter(function (el) { %>
-                        <% return el != null; %>
-                       <% }) %> 
-                     <% if(filtered_tasks.length>0) { %>
-                         <% tasks.forEach(task =>{ %>
-                            <% if(task.isDone=="1"){ %> 
-                                <p class="list-styling" id="list-styling"><div class="p-3 mb-2 bg-danger text-white"><%= task.text %>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-warning btn-sm" type="button" data-toggle="tooltip" data-placement="bottom" title="Delete Task"><a class="delete" data-doc="<%= task._id %> ">Done</a></button></div></p> 
-                             <% } %>
-                            <% }) %>
-                         <% }else{ %>
-                             <p>No Tasks Yet!!!</p>
-                         <% } %> 
-     
-                </p>
-            </div>
-        </div>
-        <div class="card">
-            <img class="card-img-top" src="holder.js/100x180/" alt="">
-            <div class="card-body">
-                <h4 class="card-title" style="background-color: #4299f5;">Future Tasks</h4>
-                <p class="card-text3">
-                    <% var filtered_tasks = tasks.filter(function (el) { %>
-                        <% return el != null; %>
-                       <% }) %> 
-                     <% if(filtered_tasks.length>0) { %>
-                         <% tasks.forEach(task =>{ %>
-                            <% if(task.isDone=="0"){ %> 
-                                <p class="list-styling" id="list-styling"><div class="p-3 mb-2 bg-danger text-white"><%= task.text %>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-warning btn-sm" type="button" data-toggle="tooltip" data-placement="bottom" title="Delete Task"><a class="delete" data-doc="<%= task._id %> ">Done</a></button></div></p> 
-                             <% } %>
-                            <% }) %>
-                         <% }else{ %>
-                             <p>No Tasks Yet!!!</p>
-                         <% } %> 
-                </p>
-            </div>
-        </div>
+  <% }) %>
+<% } else { %>
+  <p>No Tasks Yet!!!</p>
+<% } %>
 
+<hr />
+
+<h3>Completed</h3>
+<hr />
+<%# filter tasks by isDone %>
+<% const tDone = tasks.filter((task) => task.isDone === true) %>
+<% if (tDone.length > 0) { %>
+  <% tDone.forEach(task => { %>
+    <div class="row todo-item todo-item-done">
+      <div class="col-1">
+        <input type="checkbox" onchange="changeStatus(`<%= task._id %>`, this.checked)" <%= task.isDone ? 'checked' : '' %> >
+      </div>
+      <div class="col">
+        <%= task.text %>
+      </div>
+      <div class="col-1">
+        <span class="fas fa-trash delete" data-doc="<%= task._id %>" title="Delete Task"></span>
+      </div>
     </div>
+  <% }) %>
+<% } else { %>
+  <p>No Tasks Yet!!!</p>
+<% } %>
 
-    
-    <script>
-        // add eventlistener to all delete buttons
-        document.querySelectorAll('a.delete').forEach(delButton => {
-            delButton.addEventListener('click', (e) => {
-                //console.log(delButton.dataset.doc);
-                const task_id = `/dashboard/${delButton.dataset.doc}`;
-                fetch(task_id, {
-                    method: 'DELETE'
-                }).then((response) => response.json()).then((data) => window.location.href = data.redirect).catch(err => { console.log(err); });
-            });
-        });
-        // const del = document.querySelector('a.delete');
-        // del.addEventListener('click',(event)=>{
-        //     //need to add delete logic at user end
-        //     const task_id = `/tasks/${del.dataset.doc}`;
-        //     fetch(task_id,{
-        //         method : 'DELETE'
-        //     }).then((response)=>response.json()).then((data)=>window.location.href = data.redirect).catch(err=>{console.log(err);});
-        // });
+<script>
+  // add eventlistener to all delete buttons
+  document.querySelectorAll("span.delete").forEach(delButton => {
+    delButton.addEventListener("click", (e) => {
+      const task_id = `/dashboard/${delButton.dataset.doc}`;
+      fetch(task_id, { method: "DELETE" })
+        .then((response) => response.json())
+        .then(() => window.location.href = '/dashboard')
+        .catch((err) => console.log(err));
+    });
+  });
 
-    </script>
-
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
-
-</body>
-</html>
+  // change task status
+  const changeStatus = (task_id, isDone) => {
+    fetch('/dashboard', {
+      method: 'POST',
+      body: new URLSearchParams(`_id=${task_id}&isDone=${isDone}`)
+    })
+      .then(() => window.location.href = '/dashboard')
+      .catch(err => console.log(err));
+  }
+</script>

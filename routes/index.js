@@ -17,10 +17,19 @@ router.get('/dashboard', ensureAuthenticated, (req, res) => {
 
 // insert tasks
 router.post('/dashboard', (req, res) => {
+  // update task status
+  const {_id, isDone } = req.body
+  if (_id && isDone) {
+    Data.updateOne({ _id: _id }, { isDone: isDone })
+    .then(() => res.sendStatus(200))
+    .catch((err) => console.log(err));
+  } else {
+  // insert task
   const task = new Data(req.body);
   task.save()
     .then(() => res.redirect('/dashboard'))
     .catch((err) => console.log(err));
+  }
 });
 
 // delete tasks
