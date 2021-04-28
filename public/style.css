@@ -17,3 +17,6 @@
   color: #eb6864;
   cursor: pointer;
 }
+.todo-item .delete:hover {
+  color: #e74742;
+}
