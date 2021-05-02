@@ -1,13 +1,13 @@
 .box {
   padding: 2%;
 }
-#text {
-  width: 80%;
-}
 .todo-item {
-  background: #eeeeee;
+  background: #f0f0f0;
   margin: 1% 0;
   padding: 1%
+}
+.todo-item .col .overdue {
+  color: #e74742;
 }
 .todo-item-done .col {
   text-decoration: line-through;

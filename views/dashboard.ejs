@@ -4,10 +4,27 @@
 </nav>
 
 <div class="box border border-success">
-  <form class="form-group" action="/dashboard" method="POST">
-    Enter activity :
-    <input required type="text" name="text" placeholder="Meeting at 5:30" id="text" >
-    <input class="btn btn-success" type="submit" value="Add" id="add" >
+  <form action="/dashboard" method="POST">
+    <div class="form-group row">
+      <label for="text" class="col-sm-2 col-form-label">Enter activity :</label>
+      <div class="col-sm-8">
+        <input required type="text" name="text" placeholder="Meeting at 5:30" id="text" class="form-control">
+      </div>
+      <div class="col-sm-2">
+        <input class="btn btn-success" type="submit" value="Add" id="add">
+        <span class="btn btn btn-outline-secondary" data-toggle="collapse" data-target="#collapseDateTime" title="Due date" >
+          <i class="fas fa-caret-down"></i>
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group row collapse" id="collapseDateTime">
+      <label for="text" class="col-sm-2 col-form-label">Due in :</label>
+      <div class="col-sm-8">
+        <input type="date" name="date" id="date" class="form-control">
+        <input type="time" name="time" id="time" class="form-control">
+      </div>
+    </div>
   </form>
 </div>
 
@@ -24,7 +41,8 @@
         <input type="checkbox" onchange="changeStatus(`<%= task._id %>`, this.checked)" <%= task.isDone ? 'checked' : '' %> >
       </div>
       <div class="col">
-        <%= task.text %>
+        <p class="lead"><%= task.text %></p>
+        <small class="overdue">Tomorrow 7:00pm</small>
       </div>
       <div class="col-1">
         <span class="fas fa-trash delete" data-doc="<%= task._id %>" title="Delete Task"></span>
@@ -48,7 +66,8 @@
         <input type="checkbox" onchange="changeStatus(`<%= task._id %>`, this.checked)" <%= task.isDone ? 'checked' : '' %> >
       </div>
       <div class="col">
-        <%= task.text %>
+        <p class="lead"><%= task.text %></p>
+        <small class="text-muted">Tomorrow 7:00pm</small>
       </div>
       <div class="col-1">
         <span class="fas fa-trash delete" data-doc="<%= task._id %>" title="Delete Task"></span>
