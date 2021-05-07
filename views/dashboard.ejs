@@ -21,7 +21,7 @@
     <div class="form-group row collapse" id="collapseDateTime">
       <label for="text" class="col-sm-2 col-form-label">Due in :</label>
       <div class="col-sm-8">
-        <input type="date" name="date" id="date" class="form-control">
+        <input type="date" min="<%= new Date().toISOString().split('T')[0] %>" name="date" id="date" class="form-control">
         <input type="time" name="time" id="time" class="form-control">
       </div>
     </div>
