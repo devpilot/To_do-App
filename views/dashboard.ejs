@@ -42,7 +42,7 @@
       </div>
       <div class="col">
         <p class="lead"><%= task.text %></p>
-        <small class="overdue">Tomorrow 7:00pm</small>
+        <small class="overdue"><%= task.dueDate %></small>
       </div>
       <div class="col-1">
         <span class="fas fa-trash delete" data-doc="<%= task._id %>" title="Delete Task"></span>

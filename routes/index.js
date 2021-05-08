@@ -2,13 +2,15 @@ const express = require('express');
 const router = express.Router();
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 const Data = require('../models/Data');
+const DateTimeFormat = require("../DateTimeFormat");
 
 // Welcome Page
 router.get('/', forwardAuthenticated, (req, res) => res.render('welcome', { title: 'Welcome' }));
 
 // Dashboard
 router.get('/dashboard', ensureAuthenticated, (req, res) => {
-  Data.find({ userId: req.user._id }).sort({createdAt: -1}).then((result) => {
+  Data.find({ userId: req.user._id }).sort({createdAt: -1}).lean().then((result) => {
+    result = DateTimeFormat(result)
     res.render('dashboard', { title: 'All Tasks', tasks: result, user: req.user })
   }).catch((err) => {
     console.log(err);
