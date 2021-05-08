@@ -30,8 +30,9 @@
 
 <hr />
 
-<h3>Tasks</h3>
+<h4>Tasks</h4>
 <hr />
+<div class="todo-container">
 <%# filter tasks by isDone %>
 <% const tUndone = tasks.filter((task) => task.isDone === false) %>
 <% if (tUndone.length > 0) { %>
@@ -52,22 +53,22 @@
 <% } else { %>
   <p>No Tasks Yet!!!</p>
 <% } %>
+</div>
 
+<h4>Completed</h4>
 <hr />
-
-<h3>Completed</h3>
-<hr />
+<div class="todo-container">
 <%# filter tasks by isDone %>
 <% const tDone = tasks.filter((task) => task.isDone === true) %>
 <% if (tDone.length > 0) { %>
   <% tDone.forEach(task => { %>
-    <div class="row todo-item todo-item-done">
+    <div class="row todo-item done">
       <div class="col-1">
         <input type="checkbox" onchange="changeStatus(`<%= task._id %>`, this.checked)" <%= task.isDone ? 'checked' : '' %> >
       </div>
       <div class="col">
         <p class="lead"><%= task.text %></p>
-        <small class="text-muted">Tomorrow 7:00pm</small>
+        <small class="text-muted"><%= task.dueDate %></small>
       </div>
       <div class="col-1">
         <span class="fas fa-trash delete" data-doc="<%= task._id %>" title="Delete Task"></span>
@@ -77,6 +78,7 @@
 <% } else { %>
   <p>No Tasks Yet!!!</p>
 <% } %>
+</div>
 
 <script>
   // add eventlistener to all delete buttons
