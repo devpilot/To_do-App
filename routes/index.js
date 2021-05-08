@@ -9,7 +9,7 @@ router.get('/', forwardAuthenticated, (req, res) => res.render('welcome', { titl
 
 // Dashboard
 router.get('/dashboard', ensureAuthenticated, (req, res) => {
-  Data.find({ userId: req.user._id }).sort({createdAt: -1}).lean().then((result) => {
+  Data.find({ userId: req.user._id }).sort({ createdAt: -1 }).lean().then((result) => {
     result = DateTimeFormat(result)
     res.render('dashboard', { title: 'All Tasks', tasks: result, user: req.user })
   }).catch((err) => {
@@ -19,25 +19,32 @@ router.get('/dashboard', ensureAuthenticated, (req, res) => {
 
 // insert tasks
 router.post('/dashboard', (req, res) => {
+  const { _id, date, time, text, isDone } = req.body
   // update task status
-  const {_id, isDone } = req.body
   if (_id && isDone) {
     Data.updateOne({ _id: _id, userId: req.user._id }, { isDone: isDone })
-    .then(() => res.sendStatus(200))
-    .catch((err) => console.log(err));
+      .then(() => res.sendStatus(200))
+      .catch((err) => console.log(err));
   } else {
-  // insert task
-  const task = new Data({ ...req.body, userId: req.user._id });
-  task.save()
-    .then(() => res.redirect('/dashboard'))
-    .catch((err) => console.log(err));
+    // insert task
+    if (text) {
+      let taskDetails = { ...req.body, userId: req.user._id }
+      if (date && time) {
+        dueDate = new Date(date + ' ' + time)
+        taskDetails = Object.assign(taskDetails, { dueDate: dueDate })
+      }
+      const task = new Data(taskDetails);
+      task.save()
+        .then(() => res.redirect('/dashboard'))
+        .catch((err) => console.log(err));
+    }
   }
 });
 
 // delete tasks
 router.delete('/dashboard/:id', (req, res) => {
   const id = req.params.id;
-  Data.deleteOne({ _id: id, userId: req.user._id})
+  Data.deleteOne({ _id: id, userId: req.user._id })
     .then(() => res.json({ redirect: '/dashboard' }))
     .catch(err => console.log(err));
 });

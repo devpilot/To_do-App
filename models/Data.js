@@ -14,7 +14,8 @@ const dataSchema = new Schema({
   userId: {
     type: String,
     require: true
-  }
+  },
+  dueDate: Date
 }, { timestamps: true });
 
 const Data = mongoose.model('tasks', dataSchema);
