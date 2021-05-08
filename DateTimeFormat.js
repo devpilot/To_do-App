@@ -8,7 +8,7 @@ const { isBefore, isSameDay, isTomorrow, isSameYear, isYesterday } = require('da
 module.exports = (tasks) => {
   if (tasks.length > 0) {
     let result = Object.keys(tasks).map(function (key) {
-      const data = tasks[key].dueDate ? dtf(tasks[key].dueDate) : {dueDate: 'No due date', taskGroup: 'noDue'}
+      const data = tasks[key].dueDate ? dtf(tasks[key].dueDate) : {dueDate: 'No due date', group: 'noDue'}
       return { ...tasks[key], ...data }
     })
     return result
@@ -28,33 +28,33 @@ const dtf = (timestamp) => {
     option = { hour: 'numeric', minute: 'numeric' }
     return {
       dueDate: Intl.DateTimeFormat('en', option).format(timestamp),
-      taskGroup: 'today'
+      group: 'today'
     }
   } else if (isTomorrow(timestamp, Date.now())) {
     option = { hour: 'numeric', minute: 'numeric' }
     return {
       dueDate: 'Tomorrow ' + Intl.DateTimeFormat('en', option).format(timestamp),
-      taskGroup: 'soon'
+      group: 'soon'
     }
   } else if (isYesterday(timestamp, Date.now())) {
     option = { hour: 'numeric', minute: 'numeric' }
     return {
       dueDate: 'Yesterday ' + Intl.DateTimeFormat('en', option).format(timestamp),
-      taskGroup: 'past'
+      group: 'past'
     }
   } else if (isBefore(timestamp, Date.now())) {
     option = { month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' }
     !isSameYear(timestamp, Date.now()) && (option = Object.assign(option, { year: 'numeric' }))
     return {
       dueDate: Intl.DateTimeFormat('en', option).format(timestamp),
-      taskGroup: 'soon'
+      group: 'soon'
     }
   } else {
     let option = { month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' }
     !isSameYear(timestamp, Date.now()) && (option = Object.assign(option, { year: 'numeric' }))
     return {
       dueDate: Intl.DateTimeFormat('en', option).format(timestamp),
-      taskGroup: 'past'
+      group: 'past'
     }
   }
 }
