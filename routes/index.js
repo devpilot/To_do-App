@@ -25,19 +25,17 @@ router.post('/dashboard', (req, res) => {
     Data.updateOne({ _id: _id, userId: req.user._id }, { isDone: isDone })
       .then(() => res.sendStatus(200))
       .catch((err) => console.log(err));
-  } else {
+  } else if (text) {
     // insert task
-    if (text) {
-      let taskDetails = { ...req.body, userId: req.user._id }
-      if (date && time) {
-        dueDate = new Date(date + ' ' + time)
-        taskDetails = Object.assign(taskDetails, { dueDate: dueDate })
-      }
-      const task = new Data(taskDetails);
-      task.save()
-        .then(() => res.redirect('/dashboard'))
-        .catch((err) => console.log(err));
+    let taskDetails = { ...req.body, userId: req.user._id }
+    if (date && time) {
+      dueDate = new Date(date + ' ' + time)
+      taskDetails = Object.assign(taskDetails, { dueDate: dueDate })
     }
+    const task = new Data(taskDetails);
+    task.save()
+      .then(() => res.redirect('/dashboard'))
+      .catch((err) => console.log(err));
   }
 });
 
