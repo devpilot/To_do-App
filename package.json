@@ -1,6 +1,6 @@
 {
   "name": "todo_app",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "todo app using express, mongodb and passportjs",
   "main": "app.js",
   "scripts": {
