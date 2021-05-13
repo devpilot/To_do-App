@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const dataSchema = new Schema({
+const taskSchema = new mongoose.Schema({
   text: {
     type: String,
     required: true
@@ -12,12 +11,10 @@ const dataSchema = new Schema({
     default: false
   },
   userId: {
-    type: String,
+    type: mongoose.Schema.ObjectId,
     require: true
   },
   dueDate: Date
 }, { timestamps: true });
 
-const Data = mongoose.model('tasks', dataSchema);
-
-module.exports = Data;
+module.exports = mongoose.model('tasks', taskSchema);
