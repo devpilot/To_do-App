@@ -1,0 +1,23 @@
+<h4><%= !isDone ? 'Tasks' : 'Completed' %></h4>
+<hr />
+<div class="todo-container<%= isDone ? ' done': '' %>">
+<% const tsk = tasks.filter((task) => task.isDone === isDone) %>
+<% if (tsk.length > 0) { %>
+  <% tsk.forEach(task => { %>
+    <div class="row todo-item">
+      <div class="col-1">
+        <input type="checkbox" onchange="changeStatus(`<%= task._id %>`, this.checked)" <%= task.isDone ? 'checked' : '' %> >
+      </div>
+      <div class="col">
+        <p class="lead"><%= task.text %></p>
+        <small><%= task.dueDate %></small>
+      </div>
+      <div class="col-1">
+        <span class="fas fa-trash delete" data-doc="<%= task._id %>" title="Delete Task"></span>
+      </div>
+    </div>
+  <% }) %>
+<% } else { %>
+  <p>No Tasks Yet!!!</p>
+<% } %>
+</div>

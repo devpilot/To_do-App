@@ -10,6 +10,10 @@
 .todo-container >.row:first-child{
   border-top: none;
 }
+.todo-container.done .col {
+  text-decoration: line-through;
+  color: #777;
+}
 .todo-item {
   padding: 1%;
   border-top: 1px solid white;
@@ -17,9 +21,8 @@
 .todo-item .col .overdue {
   color: #e74742;
 }
-.todo-item.done .col {
-  text-decoration: line-through;
-  color: #6a6a6a;
+.todo-item .col small{
+  color: #777;
 }
 .todo-item .delete {
   color: #eb6864;
