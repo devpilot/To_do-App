@@ -30,9 +30,9 @@
 
 <hr />
 <%# task list %>
-<%- include('partials/taskList', { isDone: false }) %>
+<%- include('partials/taskList', { isDone: false, group: 'today' }) %>
 <%# completed list %>
-<%- include('partials/taskList', { isDone: true }) %>
+<%- include('partials/taskList', { isDone: true, group: '' }) %>
 
 <script>
   // add eventlistener to all delete buttons

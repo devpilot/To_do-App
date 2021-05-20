@@ -1,8 +1,8 @@
-<h4><%= !isDone ? 'Tasks' : 'Completed' %></h4>
-<hr />
-<div class="todo-container<%= isDone ? ' done': '' %>">
 <% const tsk = tasks.filter((task) => task.isDone === isDone) %>
 <% if (tsk.length > 0) { %>
+  <h4><%= !isDone ? 'Tasks' : 'Completed' %></h4>
+  <hr />
+  <div class="todo-container<%= isDone ? ' done': '' %>">
   <% tsk.forEach(task => { %>
     <div class="row todo-item">
       <div class="col-1">
@@ -17,7 +17,5 @@
       </div>
     </div>
   <% }) %>
-<% } else { %>
-  <p>No Tasks Yet!!!</p>
-<% } %>
 </div>
+<% } %>

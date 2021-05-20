@@ -8,7 +8,7 @@ const { isBefore, isSameDay, isTomorrow, isSameYear, isYesterday } = require('da
 module.exports = (tasks) => {
   if (tasks.length > 0) {
     let result = Object.keys(tasks).map(function (key) {
-      const data = tasks[key].dueDate ? dtf(tasks[key].dueDate) : {dueDate: 'No due date', group: 'noDue'}
+      const data = tasks[key].dueDate ? dtf(tasks[key].dueDate) : {dueDate: 'No due date', group: 'No due date'}
       return { ...tasks[key], ...data }
     })
     return result
