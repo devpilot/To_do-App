@@ -6,14 +6,17 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const createError = require('http-errors');
+require('dotenv').config()
 
 const app = express();
 
 // Passport Config
 require('./config/passport')(passport);
 
-// DB Config
-const db = require('./config/keys').mongoURI;
+// Config
+const db = process.env.MONGO_URI || 'mongodb://localhost:27017/todoapp'
+const host = process.env.HOST || 'localhost'
+const port = process.env.PORT || 3000
 
 // Connect to MongoDB
 mongoose
@@ -71,19 +74,19 @@ app.use('/', require('./routes/index'));
 app.use('/users', require('./routes/users'));
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error', {title: 'Error'});
+  res.render('error', { title: 'Error' });
 });
 
-app.listen(3000, console.log(`Server running on 3000`));
+app.listen(port, host, console.log(`Server running on http://${host}:${port}`));
